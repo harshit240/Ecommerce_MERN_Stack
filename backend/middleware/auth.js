@@ -7,10 +7,11 @@ const CheckUserAuth = async (req, res, next) => {
     const { token } = req.cookies;
     // res.send(token)
     if(!token){
-        res.status(401).send({
+        res.status(401).json({
             'status':'failed',
             'message':"Unauthorized user, no token"
         })
+        return
     }
     const data = jwt.verify(token,process.env.JWT_SECRET_KEY)
     req.user = await userModel.findById(data.userId)

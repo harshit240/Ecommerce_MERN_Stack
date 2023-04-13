@@ -1,4 +1,5 @@
 const cloudinary = require("cloudinary").v2;
+const categoryModel = require("../models/Category");
 const productModel = require("../models/Product");
 
 cloudinary.config({
@@ -12,20 +13,64 @@ class ProductController {
 
   static getAllProduct = async (req, res) => {
     try {
-      const getalluser = await productModel.find();
+      const allProducts = await productModel.find();
       res.status(200).json({
-        status: true,
-        getalluser,
+        success:true,
+        allProducts,
       });
     } catch (error) {
-      res.send(err);
+      console.log(err);
+    }
+  };
+  
+  static getCategoryProduct = async (req, res) => {
+    try {
+      const getCategory = await categoryModel.find();
+      res.status(200).json({
+        success:true,
+        getCategory,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  static createCategoryProduct = async (req, res) => {
+    // console.log(req.body);
+    try {
+      const file = req.files.image; 
+      console.log(file)
+      const myCloud = await cloudinary.uploader.upload(file.tempFilePath, {
+        folder: "Category Image",
+        width: 150,
+      });
+      const addProduct = await categoryModel.create({
+        name: req.body.name,
+        description: req.body.description,
+        images: {
+          public_id: myCloud.public_id,
+          url: myCloud.secure_url,
+        },
+      });
+      await addProduct.save();
+      res.status(200).json({
+        success: true,
+        addProduct,
+      });
+      // const data = await categoryModel.create(req.body);
+      // res.status(201).send({
+      //   status: "success",
+      //   message: "Product add Successfully 😃🍻",
+      // });
+    } catch (error) {
+      console.log(error);
     }
   };
 
   static createProduct = async (req, res) => {
     // console.log(req.body);
     try {
-      const file = req.files.images; 
+      const file = req.files.image; 
       const myCloud = await cloudinary.uploader.upload(file.tempFilePath, {
         folder: "productImage",
         width: 150,
@@ -43,37 +88,32 @@ class ProductController {
         category: req.body.category,
       });
       await addProduct.save();
-      res.status(200).json({
-        success: true,
-        addProduct,
+      res.status(201).send({
+        status: "success",
+        message: "Product added Successfully 😃🍻",
       });
-      // const data = await productModel.create(req.body);
-      // res.status(201).send({
-      //   status: "success",
-      //   message: "Product add Successfully 😃🍻",
-      // });
     } catch (error) {
-      // res.send(error)
+      // console.log(error)
       console.log(error);
     }
   };
 
   static getProductDetail = async (req, res) => {
     try {
-      const data = await productModel.findById(req.params.id);
-      console.log(data);
-      if (!data) {
-        res.status(500).json({
-          success: false,
-          message: "failed",
-        });
-      }
+      const productDetail = await productModel.findById(req.params.id);
+      // console.log(data);
+      // if (!data) {
+      //   res.status(500).json({
+      //     success: false,
+      //     message: "failed",
+      //   });
+      // }
       res.status(200).json({
         success: true,
-        data,
+        productDetail,
       });
     } catch (error) {
-      res.send(err);
+      console.log(error);
     }
   };
   
@@ -86,13 +126,14 @@ class ProductController {
           success: false,
           message: "failed",
         });
+      }else{
+        res.status(200).json({
+          success: true,
+          data,
+        });
       }
-      res.status(200).json({
-        success: true,
-        data,
-      });
     } catch (error) {
-      res.send(err);
+      console.log(err);
     }
   };
   
@@ -121,15 +162,13 @@ class ProductController {
         },
         category: req.body.category,
       });
-      console.log("3");
 
       res.status(200).json({
         success: true,
         updateproduct,
       });
     } catch (error) {
-      res.send(error);
-      // console.log(error);
+      console.log(error);
     }
   };
 
@@ -158,7 +197,7 @@ class ProductController {
           message: "  Successfully product deleted 🥂🍻",
         });
     } catch (error) {
-      res.send(error);
+      console.log(error);
     }
   };
                                  

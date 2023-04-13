@@ -15,11 +15,11 @@ class UserController {
   static registerUser = async (req, res) => {
     try {
       console.log(req.body);
-      const { name, email, password, confirm_password,avatar } = req.body;
+      const { name, email, password, confirm_password,avatar} = req.body;
       const admin = await userModel.findOne({ email: email });
 
       if (admin) {
-        res.send({
+        res.status(404).json({
           status: "failed",
           message: "ᴛʜɪꜱ ᴇᴍᴀɪʟ ɪꜱ ᴀʟʀᴇᴀᴅʏ ᴇxɪᴛꜱ😓",
         });
@@ -48,7 +48,7 @@ class UserController {
               },
               });
               await result.save();
-              res.status(201).send({
+              res.status(201).json({
                 status: "success",
                 message: "Registration Successfully 😃🍻",
               });
@@ -56,23 +56,24 @@ class UserController {
               console.log(err);
             }
           } else {
-            res.send({
+            res.status(404).json({
               status: "failed",
               message: "Password and confirm password does not match 😓",
             });
           }
         } else {
-          res.send({ status: "failed", message: "All Fields are required 😓" });
+          res.status(404).json({ status: "failed", message: "All Fields are required 😓" });
         }
       }
     } catch (error) {
-      res.send(error)
+      console.log(error)
     }
   };
   
   static loginUser = async (req, res) => {
     try {
       const { email, password } = req.body;
+      // console.log(req.body)
       if (email && password) {
         const user = await userModel.findOne({ email: email });
         // console.log(user.password);
@@ -83,71 +84,119 @@ class UserController {
             const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET_KEY);
             // console.log(token);
             res.cookie("token", token);
-            res.send({
+            res.status(201).json({
               status: "success",
               message: "login successfully with web token 😃🍻",
               Token: token,
+              user
             });
           } else {
-            res.send({
+            res.status(404).json({
               status: "failed",
               message: "Email or Password is not Valid 😓",
             });
           }
         } else {
-          res.send({
+          res.status(404).json({
             status: "failed",
             message: "You are not registered user 😓",
           });
         }
       } else {
-        res.send({ status: "failed", message: "All Fiels are required 😓" });
+        res.status(404).json({ status: "failed", message: "All Fiels are required 😓" });
       }
     } catch (error) {
-      res.send(error)
+      console.log(error)
     }
   };
 
   static logout = async (req, res) => {
     try {
       res.clearCookie("token");
-      res.send({ status: "success", message: "Logout successfull 😃🍻" });
+      res.status(202).json({ status: "success", message: "Logout successfull 😃🍻" });
     } catch (error) {
-      res.send(error)
+      console.log(error)
     }
   };
 
   static getAllUSer = async (req, res) => {
     try {
       const getalluser = await userModel.find();
-      res.status(200).json({
-        status: true,
-        getalluser,
-      });
+      res.status(200).json(
+        {getalluser},
+      );
     } catch (error) {
-      res.send(error)
+      console.log(error)
     }
   };
+
+  static getuser = async (req, res) => {
+    try {
+      const getUser = await userModel.findById(req.params.id);
+      res.status(200).json(
+        {getUser},
+      );
+    } catch (error) {
+      console.log(error)
+    }
+  };
+
+  static updateProfile = async(req,res) => {
+    try{
+        // console.log(req.params.id)
+        // console.log(req.body)
+        // console.log(req.files.avatar)
+        console.log(req.body)
+        const { name, email,avatar } = req.body
+        // console.log(user)
+        const userImg = await userModel.findById(req.params.id)
+        // console.log(userImg)
+        
+        const imageId = userImg.avatar.public_id
+        // console.log(imageId)
+        await cloudinary.uploader.destroy(imageId)
+        const file = req.files.avatar
+        // console.log(file)
+        const myCloud = await cloudinary.uploader.upload(file.tempFilePath,{
+            folder : 'Ecommerce_Mern'
+        })
+        
+        const data = await userModel.findByIdAndUpdate(req.params.id,{
+            name : name,
+            email : email,
+            avatar: {
+                public_id: myCloud.public_id,
+                url: myCloud.secure_url,
+            },
+        })
+        await data.save()
+        res
+        .status(201)
+        .json({ status: "success", message: "User Profile updated Successfully 😃🍻", data});
+    }catch(err){
+        console.log(err)
+    }
+  }
 
   static updatePassword = async(req,res)=>{
     try {
       const { oldPassword, newPassword, confirmPassword } = req.body
-      console.log(req.body);
+      // console.log(req.body);
         if (oldPassword && newPassword && confirmPassword) {
             const user = await userModel.findById(req.user.id).select("+password");
             const isMatch = await bcrypt.compare(oldPassword, user.password)
             //const isPasswordMatched = await userModel.comparePassword(req.body.oldPassword);
             if (!isMatch) {
-                res.send({ "status": 400, "message": "Old password is incorrect" })
+                res.status(404).json({ "status": 400, "message": "Old password is incorrect" })
             } else {
                 if (newPassword !== confirmPassword) {
-                    res.send({ "status": "failed", "message": "password does not match" })
+                    res.status(404).json({ "status": "failed", "message": "password does not match" })
                 } else {
                     const salt = await bcrypt.genSalt(10)
                     const newHashPassword = await bcrypt.hash(newPassword, salt)
                     //console.log(req.user)
                     await userModel.findByIdAndUpdate(req.user.id, { $set: { password: newHashPassword } })
-                    res.send({
+                    res.status(202).json({
                       status: "success",
                       message: "Password changed succesfully 😃🍻",
                     });
@@ -155,29 +204,23 @@ class UserController {
             }
 
         } else {
-            res.send({ "status": "failed", "message": "All Fields are Required" })
+            res.status(404).json({ "status": "failed", "message": "All Fields are Required" })
         }
     } catch (error) {
-      res.send(error)
+      console.log(error)
     }
   }
 
   static getSingleUser = async(req,res)=>{
     try {
       const data = await userModel.findById(req.params.id);
-      console.log(data);
-      if (!data) {
-        res.status(500).json({
-          success: false,
-          message: "failed",
-        });
-      }
+      // console.log(data);
       res.status(200).json({
         success: true,
         data,
       });
     } catch (error) {
-      
+      console.log(error)
     }
   }
 
@@ -191,12 +234,12 @@ class UserController {
           message: "failed",
         });
       }
-      res.send({
+      res.status(202).json({
         status: "Success",
         message: "Delete User Successfully!",
       });
     } catch (error) {
-      
+      console.log(error)
     }
   }
   
@@ -207,6 +250,20 @@ class UserController {
       
     }
   }
+
+  static getuserdetail = async (req, res) => {
+    try {
+      // console.log(req.user);
+      const user = await userModel.findById(req.user.id);
+      res.status(200).json({
+        success: true,
+        user,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  
 }
 
 module.exports = UserController;

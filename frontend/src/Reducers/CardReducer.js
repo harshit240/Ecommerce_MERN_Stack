@@ -33,7 +33,6 @@ export const cartReducer = (
                 ...state,
                 cartItems: state.cartItems.filter((i) => i.product !== action.payload),
             };
-
         case SAVE_SHIPPING_INFO:
             return {
                 ...state,

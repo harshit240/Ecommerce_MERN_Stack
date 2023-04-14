@@ -22,20 +22,17 @@ const Profile = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-
     const myForm = new FormData()
-    // const myForm = {
-    //   "name":name,
-    //   "email":email,
-    //   "avatar":avatar
-    // }
     myForm.append('name', name)
     myForm.append('email', email)
     // myForm.append('number',number)
     myForm.append('avatar', avatar)
-    console.log("dispatch ke upar", myForm)
+
+    // for (var key of myForm.entries()) {
+    //   console.log(key[0] + ', ' + key[1]);
+    // }
+
     dispatch(updateProfile(myForm))
-    console.log("dispatch ke niche", myForm);
   }
   useEffect(() => {
     if (error) {
@@ -71,10 +68,12 @@ const Profile = () => {
                 <h4>Account Settings</h4>
                 <ul>
                   <li className='active'>Profile Information</li>
-                  <li>Update Password</li>
+                  <li>
+                    <Link to='/updatePassword'>
+                    </Link> Update Password</li>
                   <li>Forgot Password</li>
                   <li onClick={() => Logout()}>
-                      Logout
+                    Logout
                   </li>
                 </ul>
               </div>
@@ -85,7 +84,7 @@ const Profile = () => {
                   <h3>Personal Information</h3>
                   <form onSubmit={handleSubmit}>
                     <div className="form-group profileimgcontainer">
-                      <img src={Avatarpreview} name="avatar" className='form-control profileimg' id="profile" />
+                      <img src={Avatarpreview} name="avatar" className='form-control profileimg' id="profile" alt='avatar' />
                     </div>
                     <div className="form-group">
                       <label htmlFor="inputName">Name</label>

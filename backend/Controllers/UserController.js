@@ -143,7 +143,7 @@ class UserController {
 
   static updateProfile = async (req, res) => {
     try {
-     
+      // console.log(req.body)
       if (req.files) {
         const user = await userModel.findById(req.user.id)
 
@@ -194,7 +194,7 @@ class UserController {
         const isMatch = await bcrypt.compare(oldPassword, user.password)
         //const isPasswordMatched = await userModel.comparePassword(req.body.oldPassword);
         if (!isMatch) {
-          res.status(404).json({ "status": 400, "message": "Old password is incorrect" })
+          res.status(404).json({ "status": "failed", "message": "Old password is incorrect" })
         } else {
           if (newPassword !== confirmPassword) {
             res.status(404).json({ "status": "failed", "message": "password does not match" })

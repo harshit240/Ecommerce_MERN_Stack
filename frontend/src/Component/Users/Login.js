@@ -47,7 +47,7 @@ function Login() {
                     <section>
                         <div className='container'>
                             <div className='row'>
-                                <div className='col-lg-8'>
+                                <div className='col-lg-8 form'>
                                     <form onSubmit={submitHandler}>
 
                                         <div className="form-group">

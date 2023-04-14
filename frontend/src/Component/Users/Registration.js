@@ -41,7 +41,6 @@ function Registration() {
             dispatch(clearErrors())
         }
         if(isAuntheticated){
-            console.log("Hiii")
             navigate('/login')
             const message =  data.user.message;
             alert.success(message)

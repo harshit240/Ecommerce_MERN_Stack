@@ -11,6 +11,7 @@ import { loadUser } from './Actions/UserAction';
 import { useDispatch } from 'react-redux';
 import Profile from './Component/Users/Profile';
 import Cart from './Component/Layout/Cart';
+import UpdatePassword from './Component/Users/UpdatePassword';
 
 function App() {
   const dispatch = useDispatch();
@@ -25,6 +26,7 @@ function App() {
         <Route path='' element={<Home/>} />
         <Route path='/register' element={<Registration/>} />
         <Route path='/login' element={<Login/>} />
+        <Route path='/updatePassword' element={<UpdatePassword/>} />
         <Route path='/profile' element={<Profile/>} />
         <Route path='/cart' element={<Cart/>} />        
         <Route path='/product/:id' element={<ProductDetail/>} />

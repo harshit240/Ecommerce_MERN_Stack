@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom'
 import { logoutAction } from '../../Actions/UserAction'
 function Header() {
     const { user, loading } = useSelector((state) => state.auth)
+    const {products} = useSelector((state)=>state.c)
+    // console.log(products)
     const user1 = user?.user
     const dispatch = useDispatch();
     const Logout = async () => {

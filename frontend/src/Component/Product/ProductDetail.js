@@ -32,7 +32,7 @@ function ProductDetail() {
 
     const addToCartHandler = () => {
         dispatch(addItemsToCart(id, quantity));
-        alert.success("Item Added To Cart");
+        // alert.success("Item Added To Cart");
     };
     
     return (

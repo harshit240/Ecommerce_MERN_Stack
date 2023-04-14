@@ -3,7 +3,7 @@ import thunk from 'redux-thunk';
 import {composeWithDevTools} from 'redux-devtools-extension'
 import { productDetailsReducer, productReducer } from './Reducers/ProductReducer';
 import { categoryReducer } from './Reducers/CategoryReducer';
-import { userReducer } from './Reducers/UserReducer';
+import { profileReducer, userReducer } from './Reducers/UserReducer';
 import { cartReducer } from './Reducers/CardReducer';
 
 const reducer = combineReducers({
@@ -11,7 +11,8 @@ const reducer = combineReducers({
     productDetail:productDetailsReducer,
     c:categoryReducer,
     auth:userReducer,
-    cart:cartReducer
+    cart:cartReducer,
+    profile:profileReducer
 })
 
 let initializeState = {

@@ -14,8 +14,8 @@ class UserController {
 
   static registerUser = async (req, res) => {
     try {
-      console.log(req.body);
-      const { name, email, password, confirm_password,avatar} = req.body;
+      // console.log(req.body);
+      const { name, email, password, confirm_password, avatar } = req.body;
       const admin = await userModel.findOne({ email: email });
 
       if (admin) {
@@ -45,7 +45,7 @@ class UserController {
                 avatar: {
                   public_id: image_upload.public_id,
                   url: image_upload.secure_url,
-              },
+                },
               });
               await result.save();
               res.status(201).json({
@@ -69,7 +69,7 @@ class UserController {
       console.log(error)
     }
   };
-  
+
   static loginUser = async (req, res) => {
     try {
       const { email, password } = req.body;
@@ -123,7 +123,7 @@ class UserController {
     try {
       const getalluser = await userModel.find();
       res.status(200).json(
-        {getalluser},
+        { getalluser },
       );
     } catch (error) {
       console.log(error)
@@ -134,84 +134,91 @@ class UserController {
     try {
       const getUser = await userModel.findById(req.params.id);
       res.status(200).json(
-        {getUser},
+        { getUser },
       );
     } catch (error) {
       console.log(error)
     }
   };
 
-  static updateProfile = async(req,res) => {
-    try{
-        // console.log(req.params.id)
-        // console.log(req.body)
-        // console.log(req.files.avatar)
-        console.log(req.body)
-        const { name, email,avatar } = req.body
-        // console.log(user)
-        const userImg = await userModel.findById(req.params.id)
-        // console.log(userImg)
-        
-        const imageId = userImg.avatar.public_id
+  static updateProfile = async (req, res) => {
+    try {
+     
+      if (req.files) {
+        const user = await userModel.findById(req.user.id)
+
+        const imageId = user.avatar.public_id
         // console.log(imageId)
         await cloudinary.uploader.destroy(imageId)
         const file = req.files.avatar
         // console.log(file)
-        const myCloud = await cloudinary.uploader.upload(file.tempFilePath,{
-            folder : 'Ecommerce_Mern'
+        const myCloud = await cloudinary.uploader.upload(file.tempFilePath, {
+          folder: 'Ecommerce_Mern',
+          width: 150,
+          crop: "scale",
         })
-        
-        const data = await userModel.findByIdAndUpdate(req.params.id,{
-            name : name,
-            email : email,
-            avatar: {
-                public_id: myCloud.public_id,
-                url: myCloud.secure_url,
-            },
-        })
-        await data.save()
-        res
-        .status(201)
-        .json({ status: "success", message: "User Profile updated Successfully 😃🍻", data});
-    }catch(err){
-        console.log(err)
+        var data = {
+          name: req.body.name,
+          email: req.body.email,
+          avatar: {
+            public_id: myCloud.public_id,
+            url: myCloud.secure_url,
+          },
+        };
+      } else {
+        var data = {
+          name: req.body.name,
+          email: req.body.email,
+        };
+      }
+      const result = await userModel.findByIdAndUpdate(req.user.id, data)
+      // await result.save()
+      res.status(201).json({ 
+        status: "success",
+        message: "User Profile updated Successfully 😃🍻", 
+        result 
+      });
+
+    } catch (err) {
+      console.log(err);
     }
   }
 
-  static updatePassword = async(req,res)=>{
+
+  static updatePassword = async (req, res) => {
     try {
       const { oldPassword, newPassword, confirmPassword } = req.body
       // console.log(req.body);
-        if (oldPassword && newPassword && confirmPassword) {
-            const user = await userModel.findById(req.user.id).select("+password");
-            const isMatch = await bcrypt.compare(oldPassword, user.password)
-            //const isPasswordMatched = await userModel.comparePassword(req.body.oldPassword);
-            if (!isMatch) {
-                res.status(404).json({ "status": 400, "message": "Old password is incorrect" })
-            } else {
-                if (newPassword !== confirmPassword) {
-                    res.status(404).json({ "status": "failed", "message": "password does not match" })
-                } else {
-                    const salt = await bcrypt.genSalt(10)
-                    const newHashPassword = await bcrypt.hash(newPassword, salt)
-                    //console.log(req.user)
-                    await userModel.findByIdAndUpdate(req.user.id, { $set: { password: newHashPassword } })
-                    res.status(202).json({
-                      status: "success",
-                      message: "Password changed succesfully 😃🍻",
-                    });
-                }
-            }
-
+      if (oldPassword && newPassword && confirmPassword) {
+        const user = await userModel.findById(req.user.id).select("+password");
+        const isMatch = await bcrypt.compare(oldPassword, user.password)
+        //const isPasswordMatched = await userModel.comparePassword(req.body.oldPassword);
+        if (!isMatch) {
+          res.status(404).json({ "status": 400, "message": "Old password is incorrect" })
         } else {
-            res.status(404).json({ "status": "failed", "message": "All Fields are Required" })
-        }
+          if (newPassword !== confirmPassword) {
+            res.status(404).json({ "status": "failed", "message": "password does not match" })
+          } else {
+            const salt = await bcrypt.genSalt(10)
+            const newHashPassword = await bcrypt.hash(newPassword, salt)
+            //console.log(req.user)
+            await userModel.findByIdAndUpdate(req.user.id, { $set: { password: newHashPassword } })
+            res.status(202).json({
+              status: "success",
+              message: "Password changed succesfully 😃🍻",
+            });
+          }
+        }
+
+      } else {
+        res.status(404).json({ "status": "failed", "message": "All Fields are Required" })
+      }
     } catch (error) {
       console.log(error)
     }
   }
 
-  static getSingleUser = async(req,res)=>{
+  static getSingleUser = async (req, res) => {
     try {
       const data = await userModel.findById(req.params.id);
       // console.log(data);
@@ -224,7 +231,7 @@ class UserController {
     }
   }
 
-  static deleteUser = async(req,res)=>{
+  static deleteUser = async (req, res) => {
     try {
       const data = await userModel.findByIdAndDelete(req.params.id);
       // console.log(data);
@@ -242,12 +249,12 @@ class UserController {
       console.log(error)
     }
   }
-  
-  static changeUserRole = async(req,res)=>{
+
+  static changeUserRole = async (req, res) => {
     try {
-      
+
     } catch (error) {
-      
+
     }
   }
 
@@ -263,7 +270,7 @@ class UserController {
       console.log(error);
     }
   };
-  
+
 }
 
 module.exports = UserController;

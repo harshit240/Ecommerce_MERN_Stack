@@ -1,9 +1,9 @@
 const {CheckUserAuth, AuthRoles} = require('../middleware/auth')
 const express = require('express');
 const router = express.Router()
-const UserController = require('../Controllers/USerController');
 const ProductController = require('../Controllers/ProductController');
 const OrderController = require('../Controllers/OrderController');
+const UserController = require('../Controllers/UserController');
 
 //Usercontroller
 router.post('/register',UserController.registerUser);

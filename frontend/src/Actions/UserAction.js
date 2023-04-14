@@ -98,7 +98,7 @@ export const UpdatePasswordAction = (myForm) => async(dispatch) => {
             },
           };
         let link = '/api/pn/updatePassword'
-        const { data } = await axios.post(link,config,myForm)
+        const { data } = await axios.post(link,myForm,config);
         // console.log(data)
         dispatch({
             type: UPDATE_PASSWORD_SUCCESS,
@@ -120,7 +120,7 @@ export const updateProfile = (myForm) => async(dispatch) => {
             },
           };
         let link = `/api/pn/updateprofile`
-        const { data } = await axios.post(link,config,myForm)
+        const { data } = await axios.post(link,myForm,config)
         // console.log(data)
         dispatch({
             type: UPDATE_PROFILE_SUCCESS,

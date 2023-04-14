@@ -16,6 +16,10 @@ import {
     LOGOUT_FAIL,
     UPDATE_PASSWORD_SUCCESS,
     UPDATE_PASSWORD_FAIL,
+    UPDATE_PROFILE_REQUEST,
+    UPDATE_PROFILE_SUCCESS,
+    UPDATE_PROFILE_RESET,
+    UPDATE_PROFILE_FAIL
 } from '../Constants/UserConstants.js'
 import axios from 'axios'
 
@@ -103,6 +107,28 @@ export const UpdatePasswordAction = (myForm) => async(dispatch) => {
     }catch(error){
         dispatch({
             type: UPDATE_PASSWORD_FAIL,
+            payload: error.response.data.message
+        })
+    }
+}
+export const updateProfile = (myForm) => async(dispatch) => {
+    try{
+        dispatch({ type: UPDATE_PROFILE_REQUEST })
+        const config = {
+            headers: {
+              "content-type": "application/json",
+            },
+          };
+        let link = `/api/pn/updateprofile`
+        const { data } = await axios.post(link,config,myForm)
+        // console.log(data)
+        dispatch({
+            type: UPDATE_PROFILE_SUCCESS,
+            payload: data.result
+        })
+    }catch(error){
+        dispatch({
+            type: UPDATE_PROFILE_FAIL,
             payload: error.response.data.message
         })
     }

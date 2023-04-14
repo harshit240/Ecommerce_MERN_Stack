@@ -15,7 +15,7 @@ router.post('/updatePassword',CheckUserAuth,UserController.updatePassword);
 router.get('/getuserdata',UserController.getAllUSer);
 router.get('/getuserdata/:id',UserController.getuser);
 router.get('/admin/getuserdata/:id',UserController.getSingleUser);
-router.post('/updateprofile/:id',UserController.updateProfile);
+router.post('/updateprofile',CheckUserAuth,UserController.updateProfile);
 router.post('/admin/deleteuserdata/:id',UserController.deleteUser);
 router.post('/admin/updateuserrole/:id',UserController.changeUserRole);
 router.get('/me',CheckUserAuth,UserController.getuserdetail);

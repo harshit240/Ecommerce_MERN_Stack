@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux'
 
 const Cart = () => {
     const { cartItems } = useSelector((state) => state.cart)
-    console.log(cartItems)
+    // console.log(cartItems)
     return (
         <>
             {
@@ -27,27 +27,29 @@ const Cart = () => {
                                         <tbody className="align-middle">
                                             {
                                                 cartItems && cartItems.map((val, key) => {
-                                                    <tr key={key}>
-                                                        <td className="align-middle" ><img src={val.image} alt="" style={{ width: "50px" }} />{val.name}</td>
-                                                        <td className="align-middle">{val.price}</td>
-                                                        <td className="align-middle">
-                                                            <div className="input-group quantity mx-auto" style={{ width: "100px" }}>
-                                                                <div className="input-group-btn">
-                                                                    <button className="btn btn-sm btn-primary btn-minus" >
-                                                                        <i className="fa fa-minus"></i>
-                                                                    </button>
+                                                    return (
+                                                        <tr key={key}>
+                                                            <td className="align-middle" ><img src={val.image} alt="" style={{ width: "50px" }} />{val.name}</td>
+                                                            <td className="align-middle">{val.price}</td>
+                                                            <td className="align-middle">
+                                                                <div className="input-group quantity mx-auto" style={{ width: "100px" }}>
+                                                                    <div className="input-group-btn">
+                                                                        <button className="btn btn-sm btn-primary btn-minus" >
+                                                                            <i className="fa fa-minus"></i>
+                                                                        </button>
+                                                                    </div>
+                                                                    <input type="text" className="form-control form-control-sm bg-secondary border-0 text-center" value={val.quantity} />
+                                                                    <div className="input-group-btn">
+                                                                        <button className="btn btn-sm btn-primary btn-plus">
+                                                                            <i className="fa fa-plus"></i>
+                                                                        </button>
+                                                                    </div>
                                                                 </div>
-                                                                <input type="text" className="form-control form-control-sm bg-secondary border-0 text-center" value={val.quantity} />
-                                                                <div className="input-group-btn">
-                                                                    <button className="btn btn-sm btn-primary btn-plus">
-                                                                        <i className="fa fa-plus"></i>
-                                                                    </button>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                        <td className="align-middle">{parseInt(val.quantity) * parseFloat(val.price)}</td>
-                                                        <td className="align-middle"><button className="btn btn-sm btn-danger"><i className="fa fa-times"></i></button></td>
-                                                    </tr>
+                                                            </td>
+                                                            <td className="align-middle">{parseInt(val.quantity) * parseFloat(val.price)}</td>
+                                                            <td className="align-middle"><button className="btn btn-sm btn-danger"><i className="fa fa-times"></i></button></td>
+                                                        </tr>
+                                                    )
                                                 })
                                             }
 

@@ -69,8 +69,9 @@ const Profile = () => {
                 <ul>
                   <li className='active'>Profile Information</li>
                   <li>
-                    <Link to='/updatePassword'>
-                    </Link> Update Password</li>
+                    <Link to='/updatePassword'>Update Password
+                    </Link> 
+                  </li>
                   <li>Forgot Password</li>
                   <li onClick={() => Logout()}>
                     Logout

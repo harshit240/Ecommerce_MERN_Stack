@@ -6,7 +6,7 @@ function Header() {
     const { user, loading } = useSelector((state) => state.auth)
     const {products} = useSelector((state)=>state.c)
     const {cartItems} = useSelector((state)=>state.cart)
-    console.log(cartItems.length)
+    // console.log(cartItems.length)
     const user1 = user?.user
     const dispatch = useDispatch();
     const Logout = async () => {
@@ -72,7 +72,7 @@ function Header() {
                                 <i className="fas fa-heart text-dark"></i>
                                 <span className="badge text-dark border border-dark rounded-circle" style={{ paddingBottom: "2px" }}>{cartItems.length}</span>
                             </Link>
-                            <Link to={''} className="btn px-0 ml-2">
+                            <Link to={'/cart'} className="btn px-0 ml-2">
                                 <i className="fas fa-shopping-cart text-dark"></i>
                                 <span className="badge text-dark border border-dark rounded-circle" style={{ paddingBottom: "2px" }}>{cartItems.length}</span>
                             </Link>
@@ -165,7 +165,7 @@ function Header() {
                                         <i className="fas fa-heart text-primary"></i>
                                         <span className="badge text-secondary border border-secondary rounded-circle" style={{ paddingBottom: "2px" }}>{cartItems.length}</span>
                                     </Link>
-                                    <Link to={''} className="btn px-0 ml-3">
+                                    <Link to={'/cart'} className="btn px-0 ml-3">
                                         <i className="fas fa-shopping-cart text-primary"></i>
                                         <span className="badge text-secondary border border-secondary rounded-circle" style={{ paddingBottom: "2px" }}>{cartItems.length}</span>
                                     </Link>

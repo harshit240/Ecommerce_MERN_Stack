@@ -11,7 +11,7 @@ function Home() {
   const dispatch = useDispatch();
   const { loading, products } = useSelector((state) => state.p)
   const category = useSelector((state) => state.c)
-  console.log(category);
+  // console.log(category);
   let categories = category.products
 
   useEffect(() => {

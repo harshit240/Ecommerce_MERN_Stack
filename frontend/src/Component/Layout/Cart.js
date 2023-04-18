@@ -1,15 +1,16 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { addItemsToCart } from '../../Actions/CartAction'
+import { Link } from 'react-router-dom'
 
 const Cart = () => {
     const dispatch = useDispatch()
     const { cartItems } = useSelector((state) => state.cart)
-    console.log(cartItems)
+    // console.log(cartItems)
 
-    const increaseQuantity = (id, quantity, Stock) => {
+    const increaseQuantity = (id, quantity, stock) => {
         const newQty = quantity + 1;
-        if (Stock <= quantity) {
+        if (stock <= quantity) {
             return;
         }
         dispatch(addItemsToCart(id, newQty));
@@ -22,6 +23,9 @@ const Cart = () => {
         dispatch(addItemsToCart(id, newQty));
     };
     const checkOutHandler = () =>{
+        
+    }
+    const removeItem = () =>{
         
     }
     return (
@@ -54,20 +58,20 @@ const Cart = () => {
                                                             <td className="align-middle">
                                                                 <div className="input-group quantity mx-auto" style={{ width: "100px" }}>
                                                                     <div className="input-group-btn">
-                                                                        <button className="btn btn-sm btn-primary btn-minus" onClick={() => decreaseQuantity(val.product, val.quantity, val.Stock)}>
+                                                                        <button className="btn btn-sm btn-primary btn-minus" onClick={() => decreaseQuantity(val.product, val.quantity, val.stock)}>
                                                                             <i className="fa fa-minus"></i>
                                                                         </button>
                                                                     </div>
-                                                                    <input type="text" className="form-control form-control-sm bg-secondary border-0 text-center" value={val.quantity} />
+                                                                    <input type="text" className="form-control form-control-sm bg-secondary border-0 text-center"  value={val.quantity}  />
                                                                     <div className="input-group-btn">
-                                                                        <button className="btn btn-sm btn-primary btn-plus" onClick={() => increaseQuantity(val.product, val.quantity, val.Stock)}>
+                                                                        <button className="btn btn-sm btn-primary btn-plus" onClick={() => increaseQuantity(val.product, val.quantity, val.stock)}>
                                                                             <i className="fa fa-plus"></i>
                                                                         </button>
                                                                     </div>
                                                                 </div>
                                                             </td>
                                                             <td className="align-middle">{parseInt(val.quantity) * parseFloat(val.price)}</td>
-                                                            <td className="align-middle"><button className="btn btn-sm btn-danger"><i className="fa fa-times"></i></button></td>
+                                                            <td className="align-middle"><button className="btn btn-sm btn-danger" onClick={removeItem()}><i className="fa fa-times"></i></button></td>
                                                         </tr>
                                                     )
                                                 })
@@ -108,7 +112,7 @@ const Cart = () => {
                                                     0
                                                 )}`}</h5>
                                             </div>
-                                            <button className="btn btn-block btn-primary font-weight-bold my-3 py-3">Proceed To Checkout</button>
+                                            <Link to="/checkout" className="btn btn-block btn-primary font-weight-bold my-3 py-3">Proceed To Checkout</Link>
                                         </div>
                                     </div>
                                 </div>

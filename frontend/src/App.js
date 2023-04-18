@@ -12,7 +12,7 @@ import { useDispatch } from 'react-redux';
 import Profile from './Component/Users/Profile';
 import Cart from './Component/Layout/Cart';
 import UpdatePassword from './Component/Users/UpdatePassword';
-
+import Checkout from './Component/Checkout/Checkout';
 function App() {
   const dispatch = useDispatch();
   useEffect(()=>{
@@ -29,6 +29,7 @@ function App() {
         <Route path='/updatePassword' element={<UpdatePassword/>} />
         <Route path='/profile' element={<Profile/>} />
         <Route path='/cart' element={<Cart/>} />        
+        <Route path='/checkout' element={<Checkout/>} />        
         <Route path='/product/:id' element={<ProductDetail/>} />
         </Routes>
       <Footer/>

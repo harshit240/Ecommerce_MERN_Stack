@@ -15,6 +15,11 @@ const UpdatePassword = () => {
     const [newPassword, setNewPassword] = useState();
     const [confirmPassword, setConfirmPassword] = useState();
     const dispatch = useDispatch();
+    const [showPassword, setShowPassword] = useState(false);
+
+    const toggleShowPassword = () => {
+        setShowPassword(!showPassword);
+    };
     const handleSubmit = async (e) => {
         e.preventDefault()
         const myForm = new FormData();
@@ -27,20 +32,20 @@ const UpdatePassword = () => {
     const Logout = async () => {
         dispatch(logoutAction());
     }
-    useEffect(()=>{
+    useEffect(() => {
         if (message?.status === "failed") {
             alert.error(message)
             dispatch(clearErrors)
-          }
-        if(message?.status === "success"){
+        }
+        if (message?.status === "success") {
             navigate('')
             alert.success("Password Updated Successfully")
             dispatch(loadUser())
         }
-    },[dispatch,alert,navigate,message,isUpdated])
+    }, [dispatch, alert, navigate, message, isUpdated])
     return (
         <>
-        <MetaData title={"Update Password"} />
+            <MetaData title={"Update Password"} />
             <div className="container">
                 <div className="profilecontainer">
                     <div className="box row">
@@ -55,7 +60,7 @@ const UpdatePassword = () => {
                                         </Link>
                                     </li>
                                     <li className='active'>Update Password</li>
-                                    <li>Forgot Password</li>
+
                                     <li onClick={() => Logout()}>
                                         Logout
                                     </li>
@@ -69,15 +74,18 @@ const UpdatePassword = () => {
                                     <form onSubmit={handleSubmit}>
                                         <div className="form-group">
                                             {/* <label htmlFor="oldPassword">Old Password</label> */}
-                                            <input type="password" value={oldPassword || ''} name='oldPassword' onChange={(e) => setOldPassword(e.target.value)} className='form-control' id="oldPassword" aria-describedby="nameHelp" placeholder='Enter old Password'/>
+                                            <input type="password" value={oldPassword || ''} name='oldPassword' onChange={(e) => setOldPassword(e.target.value)} className='form-control' id="oldPassword" aria-describedby="nameHelp" placeholder='Enter old Password' />
                                         </div>
                                         <div className="form-group">
                                             {/* <label htmlFor="password">New Password</label> */}
-                                            <input type="password" value={newPassword || ''} name='password' onChange={(e) => setNewPassword(e.target.value)} className='form-control' id="password" aria-describedby="nameHelp" placeholder='Enter New Password'/>
+                                            <input type={showPassword ? 'text' : 'password'} value={newPassword || ''} name='password' onChange={(e) => setNewPassword(e.target.value)} className='form-control' id="password" aria-describedby="nameHelp" placeholder='Enter New Password' />
+                                        </div>
+                                        <div className="form-group checkbox">
+                                            <input type="checkbox" onClick={toggleShowPassword} /> Show Password
                                         </div>
                                         <div className="form-group">
                                             {/* <label htmlFor="confirmPassword">Confirm Password</label> */}
-                                            <input type="password" value={confirmPassword || ''} name='confirmPassword' onChange={(e) => setConfirmPassword(e.target.value)} className='form-control' id="confirmPassword" aria-describedby="emailHelp" placeholder='Enter Confirm Password'/>
+                                            <input type="password" value={confirmPassword || ''} name='confirmPassword' onChange={(e) => setConfirmPassword(e.target.value)} className='form-control' id="confirmPassword" aria-describedby="emailHelp" placeholder='Enter Confirm Password' />
                                         </div>
                                         <button type='submit' className='btn saveBtn'>SAVE</button>
                                     </form>

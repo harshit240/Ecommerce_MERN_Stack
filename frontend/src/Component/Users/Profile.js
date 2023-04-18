@@ -11,23 +11,22 @@ const Profile = () => {
   const alert = useAlert();
   const dispatch = useDispatch();
   // const fData = user
-  const history = useNavigate()
+  const navigate = useNavigate()
+  const [Avatarpreview, setAvatarpreview] = useState()
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   // const [number,setNumber] = useState('');
   const [avatar, setAvatar] = useState('')
-  const [Avatarpreview, setAvatarpreview] = useState()
-  const hide = useRef(false);
 
   const [isDisabled, setIsDisabled] = useState(true);
-
+  
   const handleToggle = (e) => {
     e.preventDefault()
     setIsDisabled(!isDisabled);
   };
   
-  const handleSubmit = async (e) => {
+  const handleSubmit =  (e) => {
     e.preventDefault()
     const myForm = new FormData()
     myForm.append('name', name)
@@ -35,9 +34,9 @@ const Profile = () => {
     // myForm.append('number',number)
     myForm.append('avatar', avatar)
 
-    // for (var key of myForm.entries()) {
-    //   console.log(key[0] + ', ' + key[1]);
-    // }
+    for (var key of myForm.entries()) {
+      console.log(key[0] + ', ' + key[1]);
+    }
 
     dispatch(updateProfile(myForm))
   }
@@ -52,14 +51,16 @@ const Profile = () => {
       setAvatarpreview(fData?.avatar && fData?.avatar.url)
     }
     if (isUpdated) {
-      alert.success("Profile Updated Successfully")
+      alert.success("Profile Updated Successfully, Do login")
       dispatch(loadUser())
-      history("/profile");
+      navigate("/profile");
+      // dispatch(logoutAction());
       dispatch({
         type: UPDATE_PROFILE_RESET
       })
+      setIsDisabled(!isDisabled)
     }
-  }, [dispatch, alert, history, user, isUpdated, error,]);
+  }, [dispatch, alert, navigate, user, isUpdated, error,]);
 
   const Logout = async () => {
     dispatch(logoutAction());
@@ -79,7 +80,7 @@ const Profile = () => {
                     <Link to='/updatePassword'>Update Password
                     </Link> 
                   </li>
-                  <li>Forgot Password</li>
+                  
                   <li onClick={() => Logout()}>
                     Logout
                   </li>
@@ -112,7 +113,7 @@ const Profile = () => {
 
                     <div className="form-group">
                       <label htmlFor="profile">Profile picture</label>
-                      <input type="file" onChange={(e) => setAvatar(e.target.files[0])} disabled={isDisabled} className='form-control' id="profile" />
+                      <input type="file" onChange={(e)=>setAvatar(e.target.files[0])}  className='form-control' id="profile" />
                     </div>
                     <button type='submit' className='btn saveBtn'>SAVE</button>
                   </form>

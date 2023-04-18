@@ -6,15 +6,13 @@ import { useAlert } from 'react-alert';
 import MetaData from '../MetaData';
 
 const UpdatePassword = () => {
-    const { isUpdated } = useSelector((state) => state.profile)
-    const message = isUpdated?.message
-    // console.log(error)
+    const { error, isUpdated } = useSelector((state) => state.profile)
     const alert = useAlert()
     const navigate = useNavigate()
-    const [oldPassword, setOldPassword] = useState();
-    const [newPassword, setNewPassword] = useState();
-    const [confirmPassword, setConfirmPassword] = useState();
     const dispatch = useDispatch();
+    const [oldPassword, setOldPassword] = useState('');
+    const [newPassword, setNewPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
 
     const toggleShowPassword = () => {
@@ -33,16 +31,16 @@ const UpdatePassword = () => {
         dispatch(logoutAction());
     }
     useEffect(() => {
-        if (message?.status === "failed") {
-            alert.error(message)
+        if (error) {
+            alert.error(error)
             dispatch(clearErrors)
-        }
-        if (message?.status === "success") {
-            navigate('')
-            alert.success("Password Updated Successfully")
-            dispatch(loadUser())
-        }
-    }, [dispatch, alert, navigate, message, isUpdated])
+          }
+          if (isUpdated) {
+            alert.success("Password Changes Successfully, Please do login")
+            dispatch(logoutAction());
+            navigate("/login");
+          }
+    }, [dispatch, alert, navigate, isUpdated,error])
     return (
         <>
             <MetaData title={"Update Password"} />

@@ -113,6 +113,9 @@ export const UpdatePasswordAction = (myForm) => async(dispatch) => {
 }
 export const updateProfile = (myForm) => async(dispatch) => {
     try{
+        for (var key of myForm.entries()) {
+            console.log(key[0] + ', ' + key[1]);
+          }
         dispatch({ type: UPDATE_PROFILE_REQUEST })
         const config = {
             headers: {
@@ -120,7 +123,7 @@ export const updateProfile = (myForm) => async(dispatch) => {
             },
           };
         let link = `/api/pn/updateprofile`
-        const { data } = await axios.post(link,myForm,config)
+        const { data } = await axios.post(link,myForm)
         // console.log(data)
         dispatch({
             type: UPDATE_PROFILE_SUCCESS,

@@ -49,7 +49,7 @@ function Header() {
                                 ) : (!loading && <Link className='dropdown-item' to='/login'>Log In</Link>
                                 )
                             }
-
+                            <Link className='dropdown-item' to='/register'>Register</Link>
                             <div className="btn-group mx-2">
                                 <button type="button" className="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">USD</button>
                                 <div className="dropdown-menu dropdown-menu-right">

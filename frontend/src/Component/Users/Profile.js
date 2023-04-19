@@ -20,24 +20,25 @@ const Profile = () => {
   const [avatar, setAvatar] = useState('');
 
   const [isDisabled, setIsDisabled] = useState(true);
-  
+
   const handleToggle = (e) => {
     e.preventDefault()
     setIsDisabled(!isDisabled);
   };
-  
-  const handleSubmit =  (e) => {
+
+  const handleSubmit = (e) => {
+    document.cookie = 'myCookie=myValue; SameSite=None; Secure';
     e.preventDefault()
+    console.log(avatar)
     const myForm = new FormData();
     myForm.append('name', name);
     myForm.append('email', email);
     // myForm.append('number',number)
     myForm.append('avatar', avatar);
-    console.log(myForm.append('avatar', avatar))
-    for (var key of myForm.entries()) {
-      console.log(key[0] + ', ' + key[1]);
-    }
-
+    // console.log(myForm)
+    // for (var key of myForm.entries()) {
+    //   console.log(key[0] + ', ' + key[1]);
+    // }
     dispatch(updateProfile(myForm))
   }
   useEffect(() => {
@@ -52,7 +53,7 @@ const Profile = () => {
     }
     if (isUpdated) {
       alert.success("Profile Updated Successfully")
-      dispatch(loadUser())
+      dispatch(loadUser());
       navigate("/profile");
       // dispatch(logoutAction());
       dispatch({
@@ -79,9 +80,9 @@ const Profile = () => {
                   <li className='active'>Profile Information</li>
                   <li>
                     <Link to='/updatePassword'>Update Password
-                    </Link> 
+                    </Link>
                   </li>
-                  
+
                   <li onClick={() => Logout()}>
                     Logout
                   </li>
@@ -92,10 +93,10 @@ const Profile = () => {
               <div className="innerrightcontainer">
                 <div className="form-group">
                   <h3>Personal Information</h3>
-                  <form onSubmit={handleSubmit}>
-                    <div className="form-group profileimgcontainer">
-                      <img src={Avatarpreview} name="avatarpreview" className='form-control profileimg' id="profile" alt='avatarpreview' />
-                    </div>
+                  <div className="form-group profileimgcontainer">
+                    <img src={Avatarpreview} name="avatarpreview" className='form-control profileimg' id="profile" alt='avatarpreview' />
+                  </div>
+                  <form onSubmit={handleSubmit} encType='multipart/form-data'>
                     <div className='editbtn'>
                       <button className='btn ' onClick={handleToggle}>Edit</button>
                     </div>
@@ -114,7 +115,7 @@ const Profile = () => {
 
                     <div className="form-group">
                       <label htmlFor="profile">Profile picture</label>
-                      <input type="file" onChange={(e)=>setAvatar(e.target.files[0])} disabled={isDisabled} className='form-control' id="profile" />
+                      <input type="file" onChange={(e) => setAvatar(e.target.files[0])} disabled={isDisabled} className='form-control' id="profile" />
                     </div>
                     <button type='submit' className='btn saveBtn'>SAVE</button>
                   </form>

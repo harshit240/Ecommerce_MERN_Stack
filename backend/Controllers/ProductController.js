@@ -142,29 +142,41 @@ class ProductController {
       // console.log(req.body)
       const product = await productModel.findById(req.params.id);
       // console.log(product);
-      const image_id = product.images.public_id;
-      console.log(image_id);
-      await cloudinary.uploader.destroy(image_id);
-      const file = req.files.images;
-      const myCloud = await cloudinary.uploader.upload(file.tempFilePath, {
-        folder: "productImage",
-        width: 150,
-      });
-      const updateproduct = await productModel.findByIdAndUpdate(req.user.id, {
-        name: req.body.name,
-        description: req.body.description,
-        price: req.body.price,
-        stock: req.body.stock,
-        rating: req.body.rating,
-        images: {
-          public_id: myCloud.public_id,
-          url: myCloud.secure_url,
-        },
-        category: req.body.category,
-      });
-
+      if(req.files){
+        const image_id = product.images.public_id;
+        console.log(image_id);
+        await cloudinary.uploader.destroy(image_id);
+        const file = req.files.images;
+        const myCloud = await cloudinary.uploader.upload(file.tempFilePath, {
+          folder: "productImage",
+          width: 150,
+        });
+        var data = {
+          name: req.body.name,
+          description: req.body.description,
+          price: req.body.price,
+          stock: req.body.stock,
+          rating: req.body.rating,
+          images: {
+            public_id: myCloud.public_id,
+            url: myCloud.secure_url,
+          },
+          category: req.body.category,
+        }
+      }else{
+        var data = {
+          name: req.body.name,
+          description: req.body.description,
+          price: req.body.price,
+          stock: req.body.stock,
+          rating: req.body.rating,
+          category: req.body.category,
+        }
+      }
+      const updateproduct = await productModel.findByIdAndUpdate(req.params.id, data);
       res.status(200).json({
         success: true,
+        message: "Product updated Successfully 😃🍻",
         updateproduct,
       });
     } catch (error) {

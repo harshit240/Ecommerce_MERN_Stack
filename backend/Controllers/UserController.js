@@ -144,7 +144,7 @@ class UserController {
   static updateProfile = async (req, res) => {
     try {
       // console.log(req.body)
-      console.log(req.files)
+      // console.log(req.files)
       if (req.files) {
         const user = await userModel.findById(req.user.id)
         const imageId = user.avatar.public_id

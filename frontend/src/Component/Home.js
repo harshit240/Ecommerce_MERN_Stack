@@ -10,10 +10,10 @@ import { getCategoryProducts } from "../Actions/CategoryAction";
 function Home() {
   const dispatch = useDispatch();
   const { loading, products } = useSelector((state) => state.p)
+  // console.log(products);
   const category = useSelector((state) => state.c)
-  // console.log(category);
   let categories = category.products
-
+  // console.log(categories)
   useEffect(() => {
     dispatch(getCategoryProducts())
     dispatch(getAllProducts())
@@ -208,7 +208,7 @@ function Home() {
                           className="overflow-hidden"
                           style={{ width: "100px", height: "100px" }}
                         >
-                          <img className="img-fluid" src="img/cat-1.jpg" alt="" />
+                          <img className="img-fluid" src={category.images.url} alt="" />
                         </div>
                         <div className="flex-fill pl-3">
                           <h6>{category.name}</h6>

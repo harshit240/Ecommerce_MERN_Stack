@@ -13,6 +13,7 @@ import Profile from './Component/Users/Profile';
 import Cart from './Component/Layout/Cart';
 import UpdatePassword from './Component/Users/UpdatePassword';
 import Checkout from './Component/Checkout/Checkout';
+import Dashboard from './Component/Admin/Dashboard';
 function App() {
   const dispatch = useDispatch();
   useEffect(()=>{
@@ -31,6 +32,8 @@ function App() {
         <Route path='/cart' element={<Cart/>} />        
         <Route path='/checkout' element={<Checkout/>} />        
         <Route path='/product/:id' element={<ProductDetail/>} />
+        {/* Admin Routes */}
+        <Route path='/admin/dashboard' element={<Dashboard/>} />        
         </Routes>
       <Footer/>
     </BrowserRouter>

@@ -6,7 +6,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { clearErrors, loadUser, logoutAction, updateProfile } from '../../Actions/UserAction';
 const Profile = () => {
   const { user } = useSelector((state) => state.auth)
-  const fData = user?.user
+  const fData = user
   const { error, isUpdated } = useSelector((state) => state.profile)
   const alert = useAlert();
   const dispatch = useDispatch();
@@ -27,9 +27,7 @@ const Profile = () => {
   };
 
   const handleSubmit = (e) => {
-    document.cookie = 'myCookie=myValue; SameSite=None; Secure';
     e.preventDefault()
-    console.log(avatar)
     const myForm = new FormData();
     myForm.append('name', name);
     myForm.append('email', email);

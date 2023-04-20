@@ -4,10 +4,11 @@ import { Link } from 'react-router-dom'
 import { logoutAction } from '../../Actions/UserAction'
 function Header() {
     const { user, loading } = useSelector((state) => state.auth)
-    const {products} = useSelector((state)=>state.c)
-    const {cartItems} = useSelector((state)=>state.cart)
+    // console.log(user)
+    const { products } = useSelector((state) => state.c)
+    const { cartItems } = useSelector((state) => state.cart)
     // console.log(cartItems.length)
-    const user1 = user?.user
+    // const user = user?.user
     const dispatch = useDispatch();
     const Logout = async () => {
         dispatch(logoutAction());
@@ -32,13 +33,13 @@ function Header() {
                                     <div className="btn-group">
                                         <button type="button" className="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">My Account</button>
                                         <div className="dropdown-menu dropdown-menu-right text-center">
-                                            <span className='text-uppercase'>{user1 && user1?.name}</span>
-                                            <img style={{ height: "30px", width: "30px", borderRadius: "100%" }} src={user1?.avatar && user1?.avatar.url} alt='userImage' />
+                                            <span className='text-uppercase'>{user && user?.name}</span>
+                                            <img style={{ height: "30px", width: "30px", borderRadius: "100%" }} src={user?.avatar && user?.avatar.url} alt='userImage' />
                                             {
                                                 user && user.role !== 'admin' ? (
                                                     <Link to={'/orders/me'} className="dropdown-item" >Orders</Link>
                                                 ) : (
-                                                    <Link to={'/dashboard'} className="dropdown-item" >Dashboard</Link>
+                                                    <Link to={'/admin/dashboard'} className="dropdown-item" >Dashboard</Link>
                                                 )
                                             }
                                             <Link to='/profile' className="dropdown-item" >Profile</Link>
@@ -82,7 +83,7 @@ function Header() {
                 <div className="row align-items-center bg-light py-3 px-xl-5 d-none d-lg-flex">
                     <div className="col-lg-4">
                         <Link to={''} className="text-decoration-none">
-                            <span className="h1 text-uppercase text-primary bg-dark px-2">Multi</span>
+                            <span className="h1 text-uppercase text-primary bg-dark px-2">your</span>
                             <span className="h1 text-uppercase text-dark bg-primary px-2 ml-n1">Shop</span>
                         </Link>
                     </div>

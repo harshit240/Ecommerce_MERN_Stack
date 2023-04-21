@@ -1,6 +1,6 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { addItemsToCart } from '../../Actions/CartAction'
+import { addItemsToCart, removeFromCart } from '../../Actions/CartAction'
 import { Link } from 'react-router-dom'
 
 const Cart = () => {
@@ -25,8 +25,8 @@ const Cart = () => {
     const checkOutHandler = () =>{
         
     }
-    const removeItem = () =>{
-        
+    const removeItem = (id) =>{
+        dispatch(removeFromCart(id))
     }
     return (
         <>
@@ -71,7 +71,7 @@ const Cart = () => {
                                                                 </div>
                                                             </td>
                                                             <td className="align-middle">{parseInt(val.quantity) * parseFloat(val.price)}</td>
-                                                            <td className="align-middle"><button className="btn btn-sm btn-danger" onClick={removeItem()}><i className="fa fa-times"></i></button></td>
+                                                            <td className="align-middle"><button className="btn btn-sm btn-danger" onClick={() => removeItem(val.product)}><i className="fa fa-times"></i></button></td>
                                                         </tr>
                                                     )
                                                 })

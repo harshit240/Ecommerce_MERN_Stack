@@ -1,5 +1,5 @@
 import React from 'react'
-
+import {Link} from 'react-router-dom'
 const Sidebar = ({ sidebar, closeSidebar,}) => {
   return (
     <>
@@ -16,35 +16,39 @@ const Sidebar = ({ sidebar, closeSidebar,}) => {
         <ul>
           <li onClick={closeSidebar}>Close </li>
           <li>
-            <a  href="/admin/products">
+            <Link  to="/admin/products">
               <i className="fa fa-cubes"></i>
               Products
-            </a>
+            </Link>
             <ul className="nav flex-column ml-3">
               <li >
-                <a  href="/">Create Product</a>
+                <Link to="/admin/create/product">Create Product</Link>
               </li>
               <li >
-                <a  href="/">Delete Product</a>
+                <Link to="/">Delete Product</Link>
               </li>
             </ul>
           </li>
           <li>
-          <a  href="/">
+          <Link to="/admin/category">
               <i className="fa fa-list"></i>
               Category
-            </a>
+            </Link>
             <ul className="nav flex-column ml-3">
               <li >
-                <a  href="/">Create Product</a>
+                <Link to="/admin/create/category">Create Category</Link>
               </li>
               <li >
-                <a  href="/">Delete Product</a>
+                <Link to="/">Delete Product</Link>
               </li>
             </ul>
           </li>
+          <li>
+            <Link to={'/all/users'}>
+            <i className="fa fa-user"></i>
+              All Users</Link>
+          </li>
           <li>All Orders</li>
-          <li>Registrations</li>
         </ul>
       </div>
     </>

@@ -121,10 +121,10 @@ class UserController {
 
   static getAllUSer = async (req, res) => {
     try {
-      const getalluser = await userModel.find();
-      res.status(200).json(
-        { getalluser },
-      );
+      const getUser = await userModel.find();
+      res.status(200).json({
+        getUser
+      });
     } catch (error) {
       console.log(error)
     }
@@ -173,10 +173,10 @@ class UserController {
       }
       const result = await userModel.findByIdAndUpdate(req.user.id, data)
       // await result.save()
-      res.status(201).json({ 
+      res.status(201).json({
         status: "success",
-        message: "User Profile updated Successfully 😃🍻", 
-        result 
+        message: "User Profile updated Successfully 😃🍻",
+        result
       });
 
     } catch (err) {

@@ -44,7 +44,7 @@ class ProductController {
         folder: "Category Image",
         width: 150,
       });
-      const addProduct = await categoryModel.create({
+      const getCategory = await categoryModel.create({
         name: req.body.name,
         description: req.body.description,
         images: {
@@ -52,10 +52,10 @@ class ProductController {
           url: myCloud.secure_url,
         },
       });
-      await addProduct.save();
+      await getCategory.save();
       res.status(200).json({
         success: true,
-        addProduct,
+        getCategory,
       });
       // const data = await categoryModel.create(req.body);
       // res.status(201).send({

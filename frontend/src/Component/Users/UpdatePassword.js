@@ -78,8 +78,9 @@ const UpdatePassword = () => {
                                             {/* <label htmlFor="password">New Password</label> */}
                                             <input type={showPassword ? 'text' : 'password'} value={newPassword || ''} name='password' onChange={(e) => setNewPassword(e.target.value)} className='form-control' id="password" aria-describedby="nameHelp" placeholder='Enter New Password' />
                                         </div>
-                                        <div className="form-group checkbox">
-                                            <input type="checkbox" onClick={toggleShowPassword} /> Show Password
+                                        <div className="form-check form-check-inline checkbox">
+                                            <input type="checkbox" onClick={toggleShowPassword} id='inlineCheckbox1'/> 
+                                            <label class="form-check-label" for="inlineCheckbox1">Show Password</label>
                                         </div>
                                         <div className="form-group">
                                             {/* <label htmlFor="confirmPassword">Confirm Password</label> */}

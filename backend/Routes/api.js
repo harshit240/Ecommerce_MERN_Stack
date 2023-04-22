@@ -25,7 +25,7 @@ router.get('/me',CheckUserAuth,UserController.getuserdetail);
 //ProductController
 router.post('/product/create',ProductController.createProduct);
 router.get('/product',ProductController.getAllProduct);
-router.post('/product/createCategoryProduct',ProductController.createCategoryProduct);
+router.post('/create/category',ProductController.createCategoryProduct);
 router.get('/categoryproduct',ProductController.getCategoryProduct);
 router.get('/getProductDetail/:id',ProductController.getProductDetail);
 router.post('/updateproduct/:id',ProductController.updateProduct);

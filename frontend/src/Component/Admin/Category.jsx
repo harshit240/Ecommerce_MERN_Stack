@@ -1,28 +1,28 @@
 import React, { useEffect, useState } from 'react'
 import Sidebar from './Sidebar'
 import { useDispatch, useSelector } from 'react-redux';
-import { getProducts } from '../../Actions/AdminActions/ProductAction';
 import Loading from '../Layout/Loading';
 import MetaData from '../MetaData';
 import {Link} from 'react-router-dom'
+import { getAdminCategories } from '../../Actions/AdminActions/CategoryAction';
 
-const Dashboard = () => {
+const Category = () => {
   const dispatch = useDispatch();
-  const { loading, products } = useSelector((state) => state.adminProduct)
+  const { loading, products } = useSelector((state) => state.adminCategory)
   const [sidebar, setSidebar] = useState(false);
   const toggleSidebar = () => {
     setSidebar((prevState) => !prevState)
   }
   console.log(loading, products)
   useEffect(() => {
-    dispatch(getProducts())
+    dispatch(getAdminCategories())
   }, [dispatch])
 
 
 
   return (
     <>
-    <MetaData title={"Products"} />
+    <MetaData title={"Category"} />
       <div className="container-fluid">
         <div className="row">
 
@@ -36,11 +36,7 @@ const Dashboard = () => {
                   <th scope="col">S.No</th>
                   <th scope="col">Name</th>
                   <th scope="col">Description</th>
-                  <th scope="col">Price</th>
                   <th scope="col">Image</th>
-                  <th scope="col">Stock</th>
-                  <th scope="col">Rating</th>
-                  <th scope="col">Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -48,18 +44,15 @@ const Dashboard = () => {
 
                 {
                   loading ? <Loading/> : (
-                    products && products.map((val: any, key: any) => {
+                    products && products.map((val, key) => {
                       return (
                         <tr  key={key} className=' text-center'>
                           <td>{key + 1}</td>
                           <td>{val?.name}</td>
                           <td>{val?.description}</td>
-                          <td>{val?.price}</td>
                           <td>
                             <img src={val?.images.url} alt="productImage" width={'50px'} height={'50px'} />
                           </td>
-                          <td>{val?.stock}</td>
-                          <td>{val?.rating}</td>
                           <td className='d-flex'>
                             <Link to={`edit/product/${val._id}`} className='btn btn-info mx-2'>Edit</Link>
                             <Link to={`edit/product/${val._id}`} className='btn btn-danger mx-2'>Delete</Link>
@@ -78,4 +71,4 @@ const Dashboard = () => {
   )
 }
 
-export default Dashboard
+export default Category;

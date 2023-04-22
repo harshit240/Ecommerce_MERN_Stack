@@ -1,28 +1,24 @@
 import React, { useEffect, useState } from 'react'
 import Sidebar from './Sidebar'
 import { useDispatch, useSelector } from 'react-redux';
-import { getProducts } from '../../Actions/AdminActions/ProductAction';
 import Loading from '../Layout/Loading';
 import MetaData from '../MetaData';
 import {Link} from 'react-router-dom'
+import { getUsers } from '../../Actions/AdminActions/UserAction';
+const AllUser = () => {
+    const dispatch = useDispatch();
+    const { loading, users } = useSelector((state) => state.Users)
+    const [sidebar, setSidebar] = useState(false);
 
-const Dashboard = () => {
-  const dispatch = useDispatch();
-  const { loading, products } = useSelector((state) => state.adminProduct)
-  const [sidebar, setSidebar] = useState(false);
-  const toggleSidebar = () => {
-    setSidebar((prevState) => !prevState)
-  }
-  console.log(loading, products)
-  useEffect(() => {
-    dispatch(getProducts())
-  }, [dispatch])
-
-
-
+    const toggleSidebar = () => {
+      setSidebar((prevState) => !prevState)
+    }
+    useEffect(() => {
+      dispatch(getUsers())
+    }, [dispatch])
   return (
     <>
-    <MetaData title={"Products"} />
+          <MetaData title={"Category"} />
       <div className="container-fluid">
         <div className="row">
 
@@ -35,12 +31,10 @@ const Dashboard = () => {
                 <tr>
                   <th scope="col">S.No</th>
                   <th scope="col">Name</th>
-                  <th scope="col">Description</th>
-                  <th scope="col">Price</th>
+                  <th scope="col">Email</th>
                   <th scope="col">Image</th>
-                  <th scope="col">Stock</th>
-                  <th scope="col">Rating</th>
-                  <th scope="col">Actions</th>
+                  <th scope="col">Role</th>
+                  <th scope="col">Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -48,18 +42,18 @@ const Dashboard = () => {
 
                 {
                   loading ? <Loading/> : (
-                    products && products.map((val: any, key: any) => {
+                    users && users.map((val, key) => {
                       return (
                         <tr  key={key} className=' text-center'>
                           <td>{key + 1}</td>
                           <td>{val?.name}</td>
-                          <td>{val?.description}</td>
-                          <td>{val?.price}</td>
+                          <td>{val?.email}</td>
                           <td>
-                            <img src={val?.images.url} alt="productImage" width={'50px'} height={'50px'} />
+                            <img src={val?.avatar.url} alt="productImage" width={'50px'} height={'50px'} />
                           </td>
-                          <td>{val?.stock}</td>
-                          <td>{val?.rating}</td>
+                          <td>
+                            {val?.role}
+                          </td>
                           <td className='d-flex'>
                             <Link to={`edit/product/${val._id}`} className='btn btn-info mx-2'>Edit</Link>
                             <Link to={`edit/product/${val._id}`} className='btn btn-danger mx-2'>Delete</Link>
@@ -78,4 +72,4 @@ const Dashboard = () => {
   )
 }
 
-export default Dashboard
+export default AllUser

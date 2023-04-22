@@ -44,7 +44,7 @@ class ProductController {
         folder: "Category Image",
         width: 150,
       });
-      const addProduct = await categoryModel.create({
+      const getCategory = await categoryModel.create({
         name: req.body.name,
         description: req.body.description,
         images: {
@@ -52,10 +52,10 @@ class ProductController {
           url: myCloud.secure_url,
         },
       });
-      await addProduct.save();
+      await getCategory.save();
       res.status(200).json({
         success: true,
-        addProduct,
+        getCategory,
       });
       // const data = await categoryModel.create(req.body);
       // res.status(201).send({
@@ -68,7 +68,7 @@ class ProductController {
   };
 
   static createProduct = async (req, res) => {
-    // console.log(req.body);
+    console.log(req.body);
     try {
       const file = req.files.image; 
       const myCloud = await cloudinary.uploader.upload(file.tempFilePath, {
@@ -91,6 +91,7 @@ class ProductController {
       res.status(201).send({
         status: "success",
         message: "Product added Successfully 😃🍻",
+        addProduct
       });
     } catch (error) {
       // console.log(error)

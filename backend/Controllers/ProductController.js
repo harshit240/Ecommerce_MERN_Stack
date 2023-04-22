@@ -68,7 +68,7 @@ class ProductController {
   };
 
   static createProduct = async (req, res) => {
-    // console.log(req.body);
+    console.log(req.body);
     try {
       const file = req.files.image; 
       const myCloud = await cloudinary.uploader.upload(file.tempFilePath, {
@@ -91,6 +91,7 @@ class ProductController {
       res.status(201).send({
         status: "success",
         message: "Product added Successfully 😃🍻",
+        addProduct
       });
     } catch (error) {
       // console.log(error)

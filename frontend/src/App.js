@@ -34,6 +34,7 @@ function App() {
         <Route path='/product/:id' element={<ProductDetail/>} />
         {/* Admin Routes */}
         <Route path='/admin/dashboard' element={<Dashboard/>} />        
+        <Route path='/admin/products' element={<Dashboard/>} />        
         </Routes>
       <Footer/>
     </BrowserRouter>

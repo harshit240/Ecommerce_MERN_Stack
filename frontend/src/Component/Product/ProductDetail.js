@@ -12,7 +12,7 @@ function ProductDetail() {
     const alert = useAlert();
     // console.log(id);
     const { loading, products } = useSelector((state) => state.productDetail)
-    // console.log("Product Detail",products);
+    console.log("Product Detail",products);
 
     useEffect(() => {
         dispatch(getProductDetails(id))

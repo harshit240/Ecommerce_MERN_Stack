@@ -15,8 +15,34 @@ const Sidebar = ({ sidebar, closeSidebar,}) => {
       <div className={sidebar ? "sidebar" : "sidebar sidebar--open"}>
         <ul>
           <li onClick={closeSidebar}>Close </li>
-          <li>Product</li>
-          <li>Category</li>
+          <li>
+            <a  href="/admin/products">
+              <i className="fa fa-cubes"></i>
+              Products
+            </a>
+            <ul className="nav flex-column ml-3">
+              <li >
+                <a  href="/">Create Product</a>
+              </li>
+              <li >
+                <a  href="/">Delete Product</a>
+              </li>
+            </ul>
+          </li>
+          <li>
+          <a  href="/">
+              <i className="fa fa-list"></i>
+              Category
+            </a>
+            <ul className="nav flex-column ml-3">
+              <li >
+                <a  href="/">Create Product</a>
+              </li>
+              <li >
+                <a  href="/">Delete Product</a>
+              </li>
+            </ul>
+          </li>
           <li>All Orders</li>
           <li>Registrations</li>
         </ul>

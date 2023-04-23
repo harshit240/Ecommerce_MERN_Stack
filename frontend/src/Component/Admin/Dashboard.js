@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getProducts } from '../../Actions/AdminActions/ProductAction';
 import Loading from '../Layout/Loading';
 import MetaData from '../MetaData';
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 const Dashboard = () => {
   const dispatch = useDispatch();
@@ -13,7 +13,7 @@ const Dashboard = () => {
   const toggleSidebar = () => {
     setSidebar((prevState) => !prevState)
   }
-  console.log(loading, products)
+  // console.log(loading, products)
   useEffect(() => {
     dispatch(getProducts())
   }, [dispatch])
@@ -22,7 +22,7 @@ const Dashboard = () => {
 
   return (
     <>
-    <MetaData title={"Products"} />
+      <MetaData title={"Products"} />
       <div className="container-fluid">
         <div className="row">
 
@@ -47,24 +47,28 @@ const Dashboard = () => {
 
 
                 {
-                  loading ? <Loading/> : (
-                    products && products.map((val: any, key: any) => {
+                  loading ? (<>
+                    <tr>
+                      <td colSpan="5" className='loader'>Loading</td>
+                    </tr>
+                  </>) : (
+                    products && products.map((val, key) => {
                       return (
-                        <tr  key={key} className=' text-center'>
-                          <td>{key + 1}</td>
-                          <td>{val?.name}</td>
-                          <td>{val?.description}</td>
-                          <td>{val?.price}</td>
-                          <td>
-                            <img src={val?.images.url} alt="productImage" width={'50px'} height={'50px'} />
-                          </td>
-                          <td>{val?.stock}</td>
-                          <td>{val?.rating}</td>
-                          <td className='d-flex'>
-                            <Link to={`edit/product/${val._id}`} className='btn btn-info mx-2'>Edit</Link>
-                            <Link to={`edit/product/${val._id}`} className='btn btn-danger mx-2'>Delete</Link>
-                          </td>
-                        </tr>
+                          <tr key={key} className=' text-center'>
+                            <td>{key + 1}</td>
+                            <td>{val?.name}</td>
+                            <td>{val?.description}</td>
+                            <td>{val?.price}</td>
+                            <td>
+                              <img src={val?.images.url} alt="productImage" width={'50px'} height={'50px'} />
+                            </td>
+                            <td>{val?.stock}</td>
+                            <td>{val?.rating}</td>
+                            <td className='d-flex'>
+                              <Link to={`edit/product/${val._id}`} className='btn btn-info mx-2'>Edit</Link>
+                              <Link to={`edit/product/${val._id}`} className='btn btn-danger mx-2'>Delete</Link>
+                            </td>
+                          </tr>
                       )
                     })
                   )

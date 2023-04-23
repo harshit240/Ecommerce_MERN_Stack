@@ -3,22 +3,22 @@ import Sidebar from './Sidebar'
 import { useDispatch, useSelector } from 'react-redux';
 import Loading from '../Layout/Loading';
 import MetaData from '../MetaData';
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { getUsers } from '../../Actions/AdminActions/UserAction';
 const AllUser = () => {
-    const dispatch = useDispatch();
-    const { loading, users } = useSelector((state) => state.Users)
-    const [sidebar, setSidebar] = useState(false);
+  const dispatch = useDispatch();
+  const { loading, users } = useSelector((state) => state.Users)
+  const [sidebar, setSidebar] = useState(false);
 
-    const toggleSidebar = () => {
-      setSidebar((prevState) => !prevState)
-    }
-    useEffect(() => {
-      dispatch(getUsers())
-    }, [dispatch])
+  const toggleSidebar = () => {
+    setSidebar((prevState) => !prevState)
+  }
+  useEffect(() => {
+    dispatch(getUsers())
+  }, [dispatch])
   return (
     <>
-          <MetaData title={"Category"} />
+      <MetaData title={"Category"} />
       <div className="container-fluid">
         <div className="row">
 
@@ -41,10 +41,14 @@ const AllUser = () => {
 
 
                 {
-                  loading ? <Loading/> : (
+                  loading ? (<>
+                    <tr>
+                      <td colSpan="5" className='loader'>Loading</td>
+                    </tr>
+                  </>) : (
                     users && users.map((val, key) => {
                       return (
-                        <tr  key={key} className=' text-center'>
+                        <tr key={key} className=' text-center'>
                           <td>{key + 1}</td>
                           <td>{val?.name}</td>
                           <td>{val?.email}</td>

@@ -28,7 +28,7 @@ export const createCategory = (fdata) => async(dispatch) => {
             },
           };
         let link = '/api/pn/create/category'
-        const { data } = await axios.post(link,fdata,config)
+        const { data } = await axios.post(link,fdata)
         // console.log(data)
         dispatch({
             type: ADMIN_CATEGORY_SUCCESS,

@@ -1,4 +1,4 @@
-import { ADMIN_PRODUCT_FAIL, ADMIN_PRODUCT_REQUEST, ADMIN_PRODUCT_SUCCESS, CLEAR_ERRORS, CREATE_PRODUCT_FAIL, CREATE_PRODUCT_REQUEST, CREATE_PRODUCT_SUCCESS } from "../../Constants/AdminConstants"
+import { ADMIN_PRODUCT_FAIL, ADMIN_PRODUCT_REQUEST, ADMIN_PRODUCT_SUCCESS, CLEAR_ERRORS, ADMIN_PRODUCT_RESET,CREATE_PRODUCT_FAIL, CREATE_PRODUCT_REQUEST, CREATE_PRODUCT_SUCCESS } from "../../Constants/AdminConstants"
 
 export const AdminProductReducer = (state = { products: [] }, action) => {
     switch (action.type) {
@@ -20,6 +20,11 @@ export const AdminProductReducer = (state = { products: [] }, action) => {
                 loading: false,
                 error: action.payload,
             }
+        case ADMIN_PRODUCT_RESET:
+            return {
+                ...state,
+                products: false,
+            };
         case CLEAR_ERRORS:
             return {
                 ...state,

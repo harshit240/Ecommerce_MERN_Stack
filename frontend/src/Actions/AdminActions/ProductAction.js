@@ -1,5 +1,5 @@
 import axios from "axios"
-import { ADMIN_PRODUCT_FAIL, ADMIN_PRODUCT_REQUEST, ADMIN_PRODUCT_SUCCESS, CLEAR_ERRORS, CREATE_PRODUCT_REQUEST } from "../../Constants/AdminConstants"
+import { ADMIN_PRODUCT_FAIL, ADMIN_PRODUCT_REQUEST, ADMIN_PRODUCT_SUCCESS, CLEAR_ERRORS, CREATE_PRODUCT_FAIL, CREATE_PRODUCT_REQUEST, CREATE_PRODUCT_SUCCESS } from "../../Constants/AdminConstants"
 
 export const getProducts = () => async(dispatch) => {
     try{
@@ -28,15 +28,15 @@ export const createProduct = (pdata) => async(dispatch) => {
             },
           };
         let link = '/api/pn/product/create';
-        const { data } = await axios.post(link,pdata,config)
-        // console.log(data)
+        const { data } = await axios.post(link,pdata)
+        console.log(data)
         dispatch({
-            type: ADMIN_PRODUCT_SUCCESS,
+            type: CREATE_PRODUCT_SUCCESS,
             payload: data
         })
     }catch(err){
         dispatch({
-            type: ADMIN_PRODUCT_FAIL,
+            type: CREATE_PRODUCT_FAIL,
             payload: err.response.data.message
         })
     }

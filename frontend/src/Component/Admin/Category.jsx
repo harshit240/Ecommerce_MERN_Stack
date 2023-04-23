@@ -8,12 +8,12 @@ import { getAdminCategories } from '../../Actions/AdminActions/CategoryAction';
 
 const Category = () => {
   const dispatch = useDispatch();
-  const { loading, products } = useSelector((state) => state.adminCategory)
+  const { loading, categories } = useSelector((state) => state.adminCategory)
   const [sidebar, setSidebar] = useState(false);
   const toggleSidebar = () => {
     setSidebar((prevState) => !prevState)
   }
-  console.log(loading, products)
+  console.log(loading, categories)
   useEffect(() => {
     dispatch(getAdminCategories())
   }, [dispatch])
@@ -44,7 +44,7 @@ const Category = () => {
 
                 {
                   loading ? <Loading/> : (
-                    products && products.map((val, key) => {
+                    categories && categories?.map((val, key) => {
                       return (
                         <tr  key={key} className=' text-center'>
                           <td>{key + 1}</td>

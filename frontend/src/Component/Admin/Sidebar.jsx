@@ -18,7 +18,7 @@ const Sidebar = ({ sidebar, closeSidebar,}) => {
           <li>
             <Link  to="/admin/products">
               <i className="fa fa-cubes"></i>
-              Products
+              &nbsp;&nbsp;Products
             </Link>
             <ul className="nav flex-column ml-3">
               <li >
@@ -32,7 +32,7 @@ const Sidebar = ({ sidebar, closeSidebar,}) => {
           <li>
           <Link to="/admin/category">
               <i className="fa fa-list"></i>
-              Category
+              &nbsp;&nbsp;Category
             </Link>
             <ul className="nav flex-column ml-3">
               <li >
@@ -46,7 +46,7 @@ const Sidebar = ({ sidebar, closeSidebar,}) => {
           <li>
             <Link to={'/all/users'}>
             <i className="fa fa-user"></i>
-              All Users</Link>
+            &nbsp;&nbsp;All Users</Link>
           </li>
           <li>All Orders</li>
         </ul>

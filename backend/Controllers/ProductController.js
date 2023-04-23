@@ -68,14 +68,14 @@ class ProductController {
   };
 
   static createProduct = async (req, res) => {
-    console.log(req.body);
+    // console.log(req.body);
     try {
       const file = req.files.image; 
       const myCloud = await cloudinary.uploader.upload(file.tempFilePath, {
         folder: "productImage",
         width: 150,
       });
-      const addProduct = await productModel.create({
+      const allProducts = await productModel.create({
         name: req.body.name,
         description: req.body.description,
         price: req.body.price,
@@ -87,11 +87,11 @@ class ProductController {
         },
         category: req.body.category,
       });
-      await addProduct.save();
+      await allProducts.save();
       res.status(201).send({
         status: "success",
         message: "Product added Successfully 😃🍻",
-        addProduct
+        allProducts
       });
     } catch (error) {
       // console.log(error)

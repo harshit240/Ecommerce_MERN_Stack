@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { createProduct } from '../../Actions/AdminActions/ProductAction';
 import MetaData from '../MetaData';
 import Sidebar from './Sidebar';
 import { useNavigate } from 'react-router-dom';
 import { useAlert } from 'react-alert';
+import { createCategory } from '../../Actions/AdminActions/CategoryAction';
 
 const CreateCategory = () => {
     const navigate = useNavigate();
@@ -26,16 +26,17 @@ const CreateCategory = () => {
         formData.append("name", name)
         formData.append("description", description)
         formData.append("image", image)
-        console.log(image)
-        console.log(formData)
-        dispatch(createProduct(formData))
+        // console.log(image)
+        // console.log(formData)
+       
+        dispatch(createCategory(formData))
     }
     useEffect(() => {
 
     }, [dispatch, products])
     return (
         <>
-            <MetaData title={"Create Product"} />
+            <MetaData title={"Create Category"} />
             <div className="container-fluid">
                 <div className="row">
                     <div className="col-md-2">

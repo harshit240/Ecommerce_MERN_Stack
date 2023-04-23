@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { createProduct,clearErrors } from '../../Actions/AdminActions/ProductAction';
+import { createProduct, clearErrors } from '../../Actions/AdminActions/ProductAction';
 import MetaData from '../MetaData';
 import Sidebar from './Sidebar';
 import { useNavigate } from 'react-router-dom';
 import { useAlert } from 'react-alert';
-import {ADMIN_PRODUCT_RESET} from '../../Constants/AdminConstants.js'
+import { ADMIN_PRODUCT_RESET } from '../../Constants/AdminConstants.js'
 const CreateProduct = () => {
     const navigate = useNavigate();
     const alert = useAlert();
-    const { products,error } = useSelector((state) => state.adminProduct)
+    const { products, error } = useSelector((state) => state.adminProduct)
     // console.log(products)
     const dispatch = useDispatch();
     const [name, setName] = useState('');
@@ -32,23 +32,19 @@ const CreateProduct = () => {
         formData.append("price", price)
         formData.append("stock", stock)
         formData.append("rating", rating)
-        console.log(image)
-        console.log(formData)
         dispatch(createProduct(formData))
     }
     useEffect(() => {
-        if(error){
+        if (error) {
             alert.error(error)
             dispatch(clearErrors)
         }
-        // if (products) {
-        //     alert.success("Product Added successfully")
-        //     navigate("/admin/products");
-        //     dispatch({
-        //         type: ADMIN_PRODUCT_RESET
-        //     })
-        // }
-    },[dispatch,products])
+        // alert.success("Product Added successfully")
+        // navigate("/admin/products");
+        // dispatch({
+        //     type: ADMIN_PRODUCT_RESET
+        // })
+    }, [dispatch, products])
     return (
         <>
             <MetaData title={"Create Product"} />

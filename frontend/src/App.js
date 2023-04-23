@@ -18,6 +18,7 @@ import CreateProduct from './Component/Admin/CreateProduct';
 import Category from './Component/Admin/Category';
 import CreateCategory from './Component/Admin/CreateCategory';
 import AllUser from './Component/Admin/AllUser';
+import NoPageFound from './Component/Layout/NoPageFound';
 function App() {
   const dispatch = useDispatch();
   useEffect(()=>{
@@ -42,7 +43,8 @@ function App() {
         <Route path='/admin/category' element={<Category/>} />        
         <Route path='/admin/create/product' element={<CreateProduct/>} />        
         <Route path='/admin/create/category' element={<CreateCategory/>} />        
-        <Route path='/all/users' element={<AllUser/>} />        
+        <Route path='/all/users' element={<AllUser/>} />  
+        <Route path="*" element={<NoPageFound />} />      
         </Routes>
       <Footer/>
     </BrowserRouter>

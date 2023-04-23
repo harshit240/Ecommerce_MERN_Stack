@@ -3,7 +3,7 @@ import Sidebar from './Sidebar'
 import { useDispatch, useSelector } from 'react-redux';
 import Loading from '../Layout/Loading';
 import MetaData from '../MetaData';
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { getAdminCategories } from '../../Actions/AdminActions/CategoryAction';
 
 const Category = () => {
@@ -22,7 +22,7 @@ const Category = () => {
 
   return (
     <>
-    <MetaData title={"Category"} />
+      <MetaData title={"Category"} />
       <div className="container-fluid">
         <div className="row">
 
@@ -43,10 +43,14 @@ const Category = () => {
 
 
                 {
-                  loading ? <Loading/> : (
-                    categories && categories?.map((val, key) => {
+                  loading ? (<>
+                    <tr>
+                      <td colSpan="5" className='loader'>Loading</td>
+                    </tr>
+                  </>) : (
+                    categories && categories.map((val, key) => {
                       return (
-                        <tr  key={key} className=' text-center'>
+                        <tr key={key} className=' text-center'>
                           <td>{key + 1}</td>
                           <td>{val?.name}</td>
                           <td>{val?.description}</td>

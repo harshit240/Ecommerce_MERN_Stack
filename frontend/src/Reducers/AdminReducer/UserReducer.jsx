@@ -6,8 +6,8 @@ export const getAllUser = (state = {users:[]},action) =>{
     switch (action.type) {
         case ALL_USER_REQUEST:
             return{
+                ...state,
                 loading:true,
-                users:[]
             }
         case ALL_USER_SUCCESS:
             return{

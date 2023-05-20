@@ -15,19 +15,19 @@ class ProductController {
     try {
       const allProducts = await productModel.find();
       res.status(200).json({
-        success:true,
+        success: true,
         allProducts,
       });
     } catch (error) {
       console.log(err);
     }
   };
-  
+
   static getCategoryProduct = async (req, res) => {
     try {
       const getCategory = await categoryModel.find();
       res.status(200).json({
-        success:true,
+        success: true,
         getCategory,
       });
     } catch (error) {
@@ -38,7 +38,7 @@ class ProductController {
   static createCategoryProduct = async (req, res) => {
     // console.log(req.body);
     try {
-      const file = req.files.image; 
+      const file = req.files.image;
       console.log(file)
       const myCloud = await cloudinary.uploader.upload(file.tempFilePath, {
         folder: "Category Image",
@@ -70,7 +70,7 @@ class ProductController {
   static createProduct = async (req, res) => {
     // console.log(req.body);
     try {
-      const file = req.files.image; 
+      const file = req.files.image;
       const myCloud = await cloudinary.uploader.upload(file.tempFilePath, {
         folder: "productImage",
         width: 150,
@@ -117,7 +117,7 @@ class ProductController {
       console.log(error);
     }
   };
-  
+
   static getAdminProduct = async (req, res) => {
     try {
       const data = await productModel.find();
@@ -127,7 +127,7 @@ class ProductController {
           success: false,
           message: "failed",
         });
-      }else{
+      } else {
         res.status(200).json({
           success: true,
           data,
@@ -137,13 +137,13 @@ class ProductController {
       console.log(err);
     }
   };
-  
+
   static updateProduct = async (req, res) => {
     try {
       // console.log(req.body)
       const product = await productModel.findById(req.params.id);
       // console.log(product);
-      if(req.files){
+      if (req.files) {
         const image_id = product.images.public_id;
         console.log(image_id);
         await cloudinary.uploader.destroy(image_id);
@@ -164,7 +164,7 @@ class ProductController {
           },
           category: req.body.category,
         }
-      }else{
+      } else {
         var data = {
           name: req.body.name,
           description: req.body.description,
@@ -187,33 +187,33 @@ class ProductController {
 
   static deleteProduct = async (req, res) => {
     try {
-      const productdelete = await productModel.findById(req.params.id);
-      console.log(productdelete);
-      const image_id = productdelete.images.public_id;
-      console.log(image_id);
-      console.log(productdelete.images.public_id);
-      
-      if (!productdelete) {
-        return res
-          .status(200)
-          .send({ status: "500", message: "user not !! found 😪 " });
-      }
-      const imageid = productdelete.images.public_id;
-      // console.log(imageid);
-      await cloudinary.uploader.destroy(imageid);
+      if (req.params.id) {
+        const productdelete = await productModel.findById(req.params.id);
+        console.log(productdelete);
+        const image_id = productdelete.images.public_id;
+        console.log(image_id);
+        console.log(productdelete.images.public_id);
 
-      await productModel.remove(productdelete);
-      res
-        .status(200)
-        .send({
-          status: "deleted successfully",
-          message: "  Successfully product deleted 🥂🍻",
-        });
+        if (!productdelete) {
+          return res
+            .status(200)
+            .json({ status: "200", message: "Product not !! found 😪 " });
+        }
+        const imageid = productdelete.images.public_id;
+        // console.log(imageid);
+        await cloudinary.uploader.destroy(imageid);
+
+        await productModel.remove(productdelete);
+        res.status(200).json({
+            status: "deleted successfully",
+            message: "Product deleted Successfully 🥂🍻",
+          });
+      }
     } catch (error) {
       console.log(error);
     }
   };
-                                 
+
 }
 
 module.exports = ProductController;

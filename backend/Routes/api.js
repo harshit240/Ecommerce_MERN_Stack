@@ -4,6 +4,7 @@ const router = express.Router()
 const ProductController = require('../Controllers/ProductController');
 const OrderController = require('../Controllers/OrderController');
 const UserController = require('../Controllers/UserController');
+const PaymentController = require('../Controllers/PayementController');
 
 //Usercontroller
 router.post('/register',UserController.registerUser);
@@ -34,5 +35,11 @@ router.get('/deleteproduct/:id',ProductController.deleteProduct);
 
 //OrderController
 router.post('/neworder',OrderController.newOrder);
+router.get('/orders/me',OrderController.myOrder);
+
+
+//PaymentController
+router.post('/payment/process',CheckUserAuth,PaymentController.processPayment)
+router.get('/stripeapikey',CheckUserAuth,PaymentController.sendStripeApiKey)
 
 module.exports = router

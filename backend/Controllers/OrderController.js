@@ -2,30 +2,48 @@ const OrderModel = require("../models/Order");
 
 class OrderController {
   static newOrder = async (req, res) => {
-      console.log("===========================");
+      // console.log("===========================");
     try {
-      const data = await productModel.create(req.body);
+      const data = await OrderModel.create(req.body);
       await data.save();
-      res.status(201).send({
+      res.status(201).json({
         status: "success",
-        message: "Product add Successfully 😃🍻",
+        message: "Order added Successfully 😃🍻",
       });
     } catch (error) {
-      res.send(error);
+      console.log(error);
+    }
+  };
+  static getSingleOrder = async (req, res) => {
+    try {
+      const data = await OrderModel.findById(req.params.id);
+      await data.save();
+      res.status(200).json({
+        status: true,
+        data
+      });
+    } catch (error) {
+      console.log(error);
     }
   };
 
   // Methods after logged in
   static myOrder = async (req, res) => {
     try {
+      const data = await OrderModel.find();
+      res.status(200).json({
+        status: true,
+        data
+      });
     } catch (error) {
-      res.send(error);
+      console.log(error);
     }
   };
   static myAllOrder = async (req, res) => {
     try {
+
     } catch (error) {
-      res.send(error);
+      console.log(error);
     }
   };
 

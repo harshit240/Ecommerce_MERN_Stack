@@ -27,12 +27,19 @@ export const addItemsToCart = (id, quantity) => async (dispatch, getState) => {
 
   // Remove from Cart
 export const removeFromCart = (id) => async (dispatch, getState) => {
-  const {data} = await axios.get(`/api/pn/getProductDetail/${id}`);
-  // console.log("Cart action",data)
-
   dispatch({
     type: REMOVE_CART_ITEM,
     payload: id
   });
   localStorage.setItem("cartItems", JSON.stringify(getState().cart.cartItems));
 };
+
+//SAVE SHIPPING INFO
+export const savShippingInfo = (data) => async (dispatch) =>{
+  // console.log(data)
+  dispatch({
+    type:SAVE_SHIPPING_INFO,
+    payload:data
+  })
+  localStorage.setItem("shippingInfo", JSON.stringify(data));
+}

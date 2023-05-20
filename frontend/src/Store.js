@@ -8,6 +8,7 @@ import { cartReducer } from './Reducers/CartReducer';
 import { AdminProductReducer } from './Reducers/AdminReducer/AdminProductReducer';
 import { adminCategoriesReducer } from './Reducers/AdminReducer/AdminCategoryReducer';
 import { getAllUser } from './Reducers/AdminReducer/UserReducer';
+import { allOrdersReducer, myOrdersReducer, newOrderReducer } from './Reducers/OrderReducer';
 
 const reducer = combineReducers({
     p:productReducer,
@@ -18,7 +19,11 @@ const reducer = combineReducers({
     profile:profileReducer,
     adminProduct:AdminProductReducer,
     adminCategory:adminCategoriesReducer,
-    Users:getAllUser
+    Users:getAllUser,
+    newOrder:newOrderReducer,
+    myOrders:myOrdersReducer,
+    allOrdersReducer:allOrdersReducer
+
 })
 
 let initializeState = {

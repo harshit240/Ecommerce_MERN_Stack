@@ -1,22 +1,30 @@
 import React, { useEffect, useState } from 'react'
 import Sidebar from './Sidebar'
 import { useDispatch, useSelector } from 'react-redux';
-import { getProducts } from '../../Actions/AdminActions/ProductAction';
-import Loading from '../Layout/Loading';
+import { getProducts, removeProduct } from '../../Actions/AdminActions/ProductAction';
 import MetaData from '../MetaData';
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { useAlert } from 'react-alert';
 
 const Dashboard = () => {
+  const alert = useAlert();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { loading, products } = useSelector((state) => state.adminProduct)
   const [sidebar, setSidebar] = useState(false);
   const toggleSidebar = () => {
     setSidebar((prevState) => !prevState)
   }
+  const remove = (id) =>{
+    dispatch(removeProduct(id))
+    dispatch(getProducts())
+  }
   // console.log(loading, products)
   useEffect(() => {
     dispatch(getProducts())
-  }, [dispatch])
+    //Remove product notification and updation
+    navigate("/admin/products")
+  }, [dispatch,alert,navigate])
 
 
 
@@ -44,15 +52,13 @@ const Dashboard = () => {
                 </tr>
               </thead>
               <tbody>
-
-
                 {
                   loading ? (<>
                     <tr>
                       <td colSpan="5" className='loader'>Loading</td>
                     </tr>
                   </>) : (
-                    products && products.map((val, key) => {
+                    products && products?.map((val, key) => {
                       return (
                           <tr key={key} className=' text-center'>
                             <td>{key + 1}</td>
@@ -66,7 +72,7 @@ const Dashboard = () => {
                             <td>{val?.rating}</td>
                             <td className='d-flex'>
                               <Link to={`edit/product/${val._id}`} className='btn btn-info mx-2'>Edit</Link>
-                              <Link to={`edit/product/${val._id}`} className='btn btn-danger mx-2'>Delete</Link>
+                              <Link className='btn btn-danger mx-2' onClick={() => remove(val._id)}>Delete</Link>
                             </td>
                           </tr>
                       )

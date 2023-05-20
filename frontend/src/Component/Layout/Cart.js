@@ -1,13 +1,16 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { addItemsToCart, removeFromCart } from '../../Actions/CartAction'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { useAlert } from 'react-alert'
 
 const Cart = () => {
     const dispatch = useDispatch()
+    const navigate = useNavigate();
     const { cartItems } = useSelector((state) => state.cart)
+    const { isAuntheticated } = useSelector((state) => state.auth)
     // console.log(cartItems)
-
+    const alert = useAlert();
     const increaseQuantity = (id, quantity, stock) => {
         const newQty = quantity + 1;
         if (stock <= quantity) {
@@ -23,16 +26,22 @@ const Cart = () => {
         dispatch(addItemsToCart(id, newQty));
     };
     const checkOutHandler = () =>{
-        
+        if(isAuntheticated){
+            navigate('/checkout')
+        }else{
+            navigate('/login')
+            alert.success('Do Login First')
+        }
     }
     const removeItem = (id) =>{
         dispatch(removeFromCart(id))
     }
+    
     return (
         <>
             {
                 cartItems.length === 0 ? (
-                    <h2>Your cart is Empty!</h2>
+                    <h2 className='m-5 text-center'>Your cart is Empty!</h2>
                 ) : (
                     <>
                         <div className="container-fluid">
@@ -112,7 +121,7 @@ const Cart = () => {
                                                     0
                                                 )}`}</h5>
                                             </div>
-                                            <Link to="/checkout" className="btn btn-block btn-primary font-weight-bold my-3 py-3">Proceed To Checkout</Link>
+                                            <button onClick={()=>checkOutHandler()} className="btn btn-block btn-primary font-weight-bold my-3 py-3">Proceed To Checkout</button>
                                         </div>
                                     </div>
                                 </div>

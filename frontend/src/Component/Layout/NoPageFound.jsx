@@ -11,4 +11,4 @@ const NoPageFound = () => {
     )
 }
 
-export default NoPageFound
+export default NoPageFound;

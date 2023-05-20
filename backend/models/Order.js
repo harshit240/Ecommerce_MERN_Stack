@@ -12,20 +12,20 @@ const orderSchema = new mongoose.Schema({
       required: true,
     },
 
-    state: {
-      type: String,
-      required: true,
-    },
+    // state: {
+    //   type: String,
+    //   required: true,
+    // },
 
     country: {
       type: String,
       required: true,
     },
-    pinCode: {
+    pincode: {
       type: Number,
       required: true,
     },
-    phoneNo: {
+    phone: {
       type: Number,
       required: true,
     },
